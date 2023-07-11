@@ -14,6 +14,9 @@ db = SQLAlchemy()
 
 csrf = CSRFProtect()
 
+#! 寫成函數可用 .env 檔案跟改要啟動的 app
+#! 跟改 .env 後要重新啟動 flask
+
 
 def create_app(config_key):
     app = Flask(__name__)
@@ -40,13 +43,25 @@ def create_app(config_key):
     # 增加防範 csrf 功能
     csrf.init_app(app)
 
+    # 從 crud 套件匯入 views
     from apps.crud import views as crud_views
 
+    # 將藍圖登入至應用程式
     app.register_blueprint(crud_views.crud, url_prefix="/crud")
 
     @app.route("/")
     def index():
         return render_template("welcome.html")
+
+    return app
+
+
+def create_app2():
+    app = Flask(__name__)
+
+    @app.route("/")
+    def index():
+        return "hello"
 
     return app
 
