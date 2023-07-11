@@ -1,0 +1,54 @@
+table {
+    border-collapse: collapse;
+}
+
+/* table,
+th,
+td {
+    border: 1px solid #c0c0c0;
+    text-align: center;
+}
+
+h3,
+h2 {
+    text-align: center;
+}
+
+.contenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+form {
+    text-align: center;
+}
+
+table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+a {
+    color: rgb(255, 0, 0);
+    text-decoration: none;
+    text-align: center;
+
+}
+
+body {
+    background-color: rgb(218, 217, 218)
+}  
