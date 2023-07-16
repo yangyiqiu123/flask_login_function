@@ -1,12 +1,13 @@
 from datetime import datetime
 
-from werkzeug.security import generate_password_hash
+from flask_login import UserMixin
+from werkzeug.security import check_password_hash, generate_password_hash
 
-from apps.app import db
+from apps.app import db, login_manager
 
 
 # 建立繼承 db.Model 的 User 類別
-class User(db.Model):
+class User(db.Model, UserMixin):
     # 指定表格名稱
     __tablename__ = "users"
     # 定義直欄內容
@@ -25,3 +26,17 @@ class User(db.Model):
     @password.setter
     def password(self, password):
         self.password_hash = generate_password_hash(password)
+
+    # 檢測密碼
+    # 檢測密碼是否與經過雜湊處理的密碼一致
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    # 檢測郵件位置是否已經有人使用
+    def is_duplicate_email(self):
+        return User.query.filter_by(email=self.email).first() is not None
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)

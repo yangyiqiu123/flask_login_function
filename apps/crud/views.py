@@ -1,9 +1,12 @@
 # 匯入 db
 from flask import Blueprint, redirect, render_template, url_for
+from flask_login import login_required
 
 from apps.app import db
+
 # 匯入 使用者登入表單
 from apps.crud.forms import UserForm
+
 # 匯入 User 類別
 from apps.crud.models import User
 
@@ -23,12 +26,14 @@ crud = Blueprint(
 
 # 建立 index端點並回傳index.html
 @crud.route("/")
+@login_required
 def index():
     # Flask 会在模板文件夹(templates)中查找名为 "crud/index.html" 的模板文件。
     return render_template("crud/index.html")
 
 
 @crud.route("/users/new", methods=["GET", "POST"])
+@login_required
 def create_user():
     # 建立表單
     form = UserForm()
@@ -48,6 +53,7 @@ def create_user():
 
 
 @crud.route("/users")
+@login_required
 def users():
     # """取得使用者列表"""
     users = User.query.all()
@@ -55,6 +61,7 @@ def users():
 
 
 @crud.route("/users/<user_id>", methods=["GET", "POST"])
+@login_required
 def edit_user(user_id):
     form = UserForm()
 
@@ -80,6 +87,7 @@ def edit_user(user_id):
 
 
 @crud.route("/users/<user_id>/delete", methods=["POST"])
+@login_required
 def delete_user(user_id):
     user = User.query.filter_by(id=user_id).first()
     db.session.delete(user)
@@ -88,6 +96,7 @@ def delete_user(user_id):
 
 
 @crud.route("/sql")
+@login_required
 def sql():
     # 取得主健值為2的 User 物件
     # db.session.query(User).get(2)
@@ -117,7 +126,7 @@ def sql():
 
     # 排序 username
     # db.session.query(User).order_by("username").all()
-    
+
     # ? 重新排列user id 保持連續姓
     # users = User.query.order_by(User.id.asc()).all()
     # for index, user in enumerate(users, start=1):
